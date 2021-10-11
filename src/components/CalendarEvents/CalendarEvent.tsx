@@ -1,4 +1,6 @@
+import { useDispatch } from "react-redux";
 import eventIcon from "../../assets/icons/default.png";
+import { deleteEvent } from "../../store/actionCreators/events";
 
 interface CalendarEventProps {
   id: number;
@@ -14,6 +16,10 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
   date,
   title,
 }: CalendarEventProps) => {
+  const dispatch = useDispatch();
+  const handleDeleteEvent = (id: number) => {
+    dispatch(deleteEvent(id));
+  };
   return (
     <div className="main__calendar-event">
       <div className="main__calendar-event-info">
@@ -26,7 +32,10 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
         </div>
       </div>
       <div className="main__calendar-event-btns">
-        <button style={{ borderRight: "1px solid rgba(0, 0, 0, 0.06)" }}>
+        <button
+          style={{ borderRight: "1px solid rgba(0, 0, 0, 0.06)" }}
+          onClick={() => handleDeleteEvent(id)}
+        >
           удалить
         </button>
         <button>перейти на страницу</button>

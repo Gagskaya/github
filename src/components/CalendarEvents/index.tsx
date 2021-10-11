@@ -11,10 +11,11 @@ export const CalendarEvents = () => {
   const loadMore = () => {
     setNoOfElement(noOfElement + noOfElement);
   };
+
   return (
     <div>
       {slicedEvents.map((item: EventI) => (
-        <CalendarEvent {...item} />
+        <CalendarEvent {...item} key={item.id} />
       ))}
       <button onClick={loadMore}>загрузить еще</button>
     </div>

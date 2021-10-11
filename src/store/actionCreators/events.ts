@@ -2,9 +2,13 @@ import axios from "axios";
 
 import { Dispatch } from "redux";
 import { EventI, EventsI } from "../../types/EventI";
-import { EventsActionsTypes, SetEventsAction } from "../actionTypes/events";
+import {
+  EventsActions,
+  EventsActionsTypes,
+  SetEventsAction,
+} from "../actionTypes/events";
 
-export const setEvents = (payload: EventsI["items"]): SetEventsAction => ({
+export const setEvents = (payload: EventsI["items"]): EventsActions => ({
   type: EventsActionsTypes.SET_EVENTS,
   payload,
 });
@@ -18,4 +22,13 @@ export const fetchEvents = () => (dispatch: Dispatch) => {
       const newArr = data.filter((item: EventI) => item.id < 12);
       dispatch(setEvents(newArr));
     });
+};
+
+export const deleteEvent = (id: number) => ({
+  type: EventsActionsTypes.DELETE_EVENT,
+  payload: id,
+});
+
+export const deleteEventAction = (id: number) => (dispatch: Dispatch) => {
+  dispatch(deleteEvent(id));
 };

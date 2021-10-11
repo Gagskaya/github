@@ -3,14 +3,19 @@ import "./App.scss";
 
 import { Main } from "./pages/main";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents } from "./store/actionCreators/events";
+import { selectEvents } from "./store/selectors/events";
 
 function App() {
   const dispatch = useDispatch();
+  const { items } = useSelector(selectEvents);
+
   React.useEffect(() => {
-    dispatch(fetchEvents());
-  }, [dispatch]);
+    if (!items.length) {
+      dispatch(fetchEvents());
+    }
+  }, [dispatch, items.length]);
 
   return <Main />;
 }
