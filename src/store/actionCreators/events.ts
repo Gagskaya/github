@@ -1,15 +1,20 @@
 import axios from "axios";
 
 import { Dispatch } from "redux";
-import { EventI, EventsI } from "../../types/EventI";
-import {
-  EventsActions,
-  EventsActionsTypes,
-  SetEventsAction,
-} from "../actionTypes/events";
+import { EventI, EventInfo, EventsI } from "../../types/EventI";
+import { EventsActions, EventsActionsTypes } from "../actionTypes/events";
 
 export const setEvents = (payload: EventsI["items"]): EventsActions => ({
   type: EventsActionsTypes.SET_EVENTS,
+  payload,
+});
+export const eventInfo = (payload: EventInfo): EventsActions => ({
+  type: EventsActionsTypes.EVENT_INFO,
+  payload,
+});
+
+export const signUpToEvent = (payload: EventI) => ({
+  type: EventsActionsTypes.SET_SIGNED_UP_EVENTS,
   payload,
 });
 
@@ -19,13 +24,13 @@ export const fetchEvents = () => (dispatch: Dispatch) => {
       "https://run.mocky.io/v3/49b8fbae-13e6-4aac-a8d1-644e3881cc62"
     )
     .then(({ data }) => {
-      const newArr = data.filter((item: EventI) => item.id < 12);
+      const newArr = data.filter((item: EventI) => item.id < 16);
       dispatch(setEvents(newArr));
     });
 };
 
 export const deleteEvent = (id: number) => ({
-  type: EventsActionsTypes.DELETE_EVENT,
+  type: EventsActionsTypes.DELETE_SIGNED_UP_EVENT,
   payload: id,
 });
 

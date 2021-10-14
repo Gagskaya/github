@@ -4,7 +4,7 @@ import { Persistor, persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
-import { EventsI } from "../types/EventI";
+import { EventI, EventInfo, EventsI } from "../types/EventI";
 import { rootReducer } from "./reducers/rootReducer";
 
 const persistConfig = {
@@ -24,4 +24,5 @@ export const initStore = (): { store: Store; persistor: Persistor } => {
 
 export interface RootState {
   events: EventsI;
+  eventInfo: EventInfo;
 }

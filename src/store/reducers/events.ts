@@ -4,16 +4,21 @@ import { EventsActions, EventsActionsTypes } from "../actionTypes/events";
 
 const initialState: EventsI = {
   items: [],
+  signedUpItems: [],
 };
 
 export const events = produce(
   (draft: Draft<EventsI>, action: EventsActions) => {
     if (action.type === EventsActionsTypes.SET_EVENTS) {
       draft.items = action.payload;
-      // window.localStorage.setItem("events", JSON.stringify(action.payload));
     }
-    if (action.type === EventsActionsTypes.DELETE_EVENT) {
-      draft.items = draft.items.filter((item) => item.id !== action.payload);
+    if (action.type === EventsActionsTypes.DELETE_SIGNED_UP_EVENT) {
+      draft.signedUpItems = draft.signedUpItems.filter(
+        (item) => item.id !== action.payload
+      );
+    }
+    if (action.type === EventsActionsTypes.SET_SIGNED_UP_EVENTS) {
+      draft.signedUpItems = [...draft.signedUpItems, action.payload];
     }
   },
   initialState

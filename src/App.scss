@@ -90,6 +90,7 @@ button {
     }
   }
   &__single-event {
+    margin-bottom: 10px;
     width: 100%;
     max-width: 353px;
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -106,6 +107,11 @@ button {
     }
     &-footer {
       padding: 24px;
+    }
+    &-wrap {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
   }
 }
