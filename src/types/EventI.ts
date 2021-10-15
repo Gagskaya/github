@@ -9,6 +9,7 @@ export interface EventI {
 export interface EventsI {
   items: EventI[];
   signedUpItems: EventI[];
+  eventInfo: EventI | null;
 }
 export interface EventInfo {
   id?: number;

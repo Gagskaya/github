@@ -4,14 +4,15 @@ import "./App.scss";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEventsItems } from "./store/selectors/events";
+import { selectEventInfo, selectEventsItems } from "./store/selectors/events";
 import { EventI } from "./types/EventI";
 import { getYear } from "date-fns";
 import { fetchEvents, setEvents } from "./store/actionCreators/events";
-import { SignedUpEvent } from "./components/Events/SignedUpEvent";
+
 import { CalendarEvents } from "./components/CalendarEvents";
-import { AllEvents } from "./components/Events/AllEvents";
-import { selectEventInfo } from "./store/selectors/eventsInfo";
+
+import { SingleEvent } from "./components/Events/SingleEvent";
+import { EventInfo } from "./components/Events/EventInfo";
 
 export const App = () => {
   const history = useHistory();
@@ -19,7 +20,6 @@ export const App = () => {
   const pathname = history.location.pathname;
 
   const events = useSelector(selectEventsItems);
-  const eventInfo = useSelector(selectEventInfo);
 
   const [activeButton, setActiveButton] = React.useState("");
   const [month, setMonth] = React.useState(1);
@@ -154,10 +154,10 @@ export const App = () => {
         <Switch>
           <Route path="/calendar" exact component={CalendarEvents} />
 
-          <Route path="/events" exact component={AllEvents} />
+          <Route path="/events" exact component={SingleEvent} />
 
           <Route path="/events/:id">
-            <SignedUpEvent eventInfor={eventInfo} />
+            <EventInfo />
           </Route>
         </Switch>
       </div>

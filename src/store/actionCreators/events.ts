@@ -8,10 +8,6 @@ export const setEvents = (payload: EventsI["items"]): EventsActions => ({
   type: EventsActionsTypes.SET_EVENTS,
   payload,
 });
-export const eventInfo = (payload: EventInfo): EventsActions => ({
-  type: EventsActionsTypes.EVENT_INFO,
-  payload,
-});
 
 export const signUpToEvent = (payload: EventI) => ({
   type: EventsActionsTypes.SET_SIGNED_UP_EVENTS,

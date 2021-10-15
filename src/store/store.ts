@@ -24,5 +24,4 @@ export const initStore = (): { store: Store; persistor: Persistor } => {
 
 export interface RootState {
   events: EventsI;
-  eventInfo: EventInfo;
 }

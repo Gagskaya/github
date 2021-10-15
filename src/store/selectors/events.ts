@@ -8,3 +8,4 @@ export const selectEventsItems = createSelector(
   (events) => events.items
 );
 export const selectSignedUpEvents = (state: RootState): EventsI => state.events;
+export const selectEventInfo = (state: RootState): EventsI => state.events;

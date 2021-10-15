@@ -5,6 +5,7 @@ import { EventsActions, EventsActionsTypes } from "../actionTypes/events";
 const initialState: EventsI = {
   items: [],
   signedUpItems: [],
+  eventInfo: null,
 };
 
 export const events = produce(
