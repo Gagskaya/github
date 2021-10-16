@@ -28,11 +28,24 @@ export const fetchEvents = () => (dispatch: Dispatch) => {
     });
 };
 
-export const deleteEvent = (id: number) => ({
-  type: EventsActionsTypes.DELETE_SIGNED_UP_EVENT,
-  payload: id,
+export const toggleSignUp = (signedUp: boolean, id: number) => ({
+  type: EventsActionsTypes.TOGGLE_SIGN_UP,
+  payload: { signedUp, id },
 });
 
-export const deleteEventAction = (id: number) => (dispatch: Dispatch) => {
-  dispatch(deleteEvent(id));
+export const deleteEvent = (signedUp: boolean, id: number) => ({
+  type: EventsActionsTypes.DELETE_SIGNED_UP_EVENT,
+  payload: { signedUp, id },
+});
+
+export const deleteEventAction = (signedUp: boolean, id: number) => (
+  dispatch: Dispatch
+) => {
+  dispatch(deleteEvent(signedUp, id));
+};
+
+export const toggleSignUpAction = (signedUp: boolean, id: number) => (
+  dispatch: Dispatch
+) => {
+  dispatch(toggleSignUp(signedUp, id));
 };

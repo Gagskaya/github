@@ -43,7 +43,7 @@ export const App = () => {
     if (!events.length) {
       dispatch(fetchEvents());
     }
-  }, [dispatch, events.length]);
+  }, [dispatch, events?.length]);
   const selectYears = [2022, 2021];
   const setActiveCalendar = () => {
     history.push("/calendar");

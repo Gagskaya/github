@@ -5,8 +5,8 @@ import { EventsActions, EventsActionsTypes } from "../actionTypes/events";
 import { selectEventsItems } from "../selectors/events";
 
 export interface EventsReducerState {
-  items: EventI[] | [];
-  signedUpItems: EventI[] | [];
+  items: EventI[];
+  signedUpItems: EventI[];
 }
 
 const initialState: EventsReducerState = {
@@ -14,22 +14,6 @@ const initialState: EventsReducerState = {
   signedUpItems: [],
 };
 
-// export const events = produce(
-//   (draft: Draft<EventsI>, action: EventsActions) => {
-//     if (action.type === EventsActionsTypes.SET_EVENTS) {
-//       draft.items = action.payload;
-//     }
-//     if (action.type === EventsActionsTypes.DELETE_SIGNED_UP_EVENT) {
-//       draft.signedUpItems = draft.signedUpItems.filter(
-//         (item) => item.id !== action.payload
-//       );
-//     }
-//     if (action.type === EventsActionsTypes.SET_SIGNED_UP_EVENTS) {
-//       draft.signedUpItems = [...draft.signedUpItems, action.payload];
-//     }
-//   },
-//   initialState
-// );
 export const events = (state = initialState, action: EventsActions) => {
   if (action.type === EventsActionsTypes.SET_EVENTS) {
     return {
@@ -40,17 +24,33 @@ export const events = (state = initialState, action: EventsActions) => {
   if (action.type === EventsActionsTypes.DELETE_SIGNED_UP_EVENT) {
     return {
       ...state,
-      signedUpItems: state.signedUpItems.filter(
-        (item) => item.id !== action.payload
-      ),
+      items: state.items?.map((item: EventI) => {
+        if (action.payload.id === item.id) {
+          item.signedUp = false;
+          return item;
+        }
+      }),
     };
   }
   if (action.type === EventsActionsTypes.SET_SIGNED_UP_EVENTS) {
     return {
       ...state,
-      signedUpItems: [...state.signedUpItems, action.payload],
+      items: [...state.items, action.payload],
     };
   } else {
-    return state;
+    if (action.type === EventsActionsTypes.TOGGLE_SIGN_UP) {
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (action.payload.id === item.id) {
+            item.signedUp = !action.payload.signedUp;
+            return item;
+          }
+          return item;
+        }),
+      };
+    } else {
+      return state;
+    }
   }
 };

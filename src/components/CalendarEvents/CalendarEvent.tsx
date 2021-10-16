@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 
-import { deleteEvent } from "../../store/actionCreators/events";
+import { deleteEvent, toggleSignUp } from "../../store/actionCreators/events";
 
 import eventIcon from "../../assets/icons/default.png";
 
@@ -21,9 +21,8 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
   signedUp,
 }: CalendarEventProps) => {
   const dispatch = useDispatch();
-  const handleDeleteEvent = (id: number, signedUp: boolean) => {
-    signedUp = false;
-    dispatch(deleteEvent(id));
+  const handleDeleteEvent = (signedUp: boolean, id: number) => {
+    dispatch(toggleSignUp(signedUp, id));
   };
 
   return (
@@ -38,7 +37,7 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
       <div className="main__calendar-event-btns">
         <button
           style={{ borderRight: "1px solid rgba(0, 0, 0, 0.06)" }}
-          onClick={() => handleDeleteEvent(id, signedUp)}
+          onClick={() => handleDeleteEvent(signedUp, id)}
         >
           удалить
         </button>

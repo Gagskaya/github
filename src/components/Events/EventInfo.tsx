@@ -1,7 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { setSignedUpEvents } from "../../store/actionCreators/events";
+import {
+  setSignedUpEvents,
+  toggleSignUp,
+  toggleSignUpAction,
+} from "../../store/actionCreators/events";
 import { selectEventsItems } from "../../store/selectors/events";
 
 export const EventInfo = () => {
@@ -14,11 +18,12 @@ export const EventInfo = () => {
 
   const handleSignUpToEvent = () => {
     if (eventInfo) {
-      eventInfo.signedUp = true;
-      dispatch(setSignedUpEvents(eventInfo));
+      // eventInfo.signedUp = true
+      dispatch(toggleSignUp(eventInfo.signedUp, eventInfo.id));
       setActiveButton(!activeButton);
     }
   };
+  console.log(events);
   return (
     <div>
       Событие {eventInfo?.id}

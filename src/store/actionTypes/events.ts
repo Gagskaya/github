@@ -5,8 +5,8 @@ export enum EventsActionsTypes {
   SET_EVENTS = "events/SET_EVENTS",
   FETCH_EVENTS = "/events/FETCH_EVENTS",
   DELETE_SIGNED_UP_EVENT = "/events/DELETE_SIGNED_UP_EVENT",
-  FILTER_BY_YEAR = "evets/FILTER_BY_YEAR",
-
+  FILTER_BY_YEAR = "events/FILTER_BY_YEAR",
+  TOGGLE_SIGN_UP = "events/TOGGLE_SIGN_UP",
   SET_SIGNED_UP_EVENTS = "events/SET_SIGNED_UP_EVENTS",
 }
 
@@ -21,7 +21,12 @@ export interface FetchEventsAction extends Action<EventsActionsTypes> {
 
 export interface DeleteEventAction extends Action<EventsActionsTypes> {
   type: EventsActionsTypes.DELETE_SIGNED_UP_EVENT;
-  payload: number;
+  payload: { signedUp: boolean; id: number };
+}
+
+export interface ToggleSignUpAction extends Action<EventsActionsTypes> {
+  type: EventsActionsTypes.TOGGLE_SIGN_UP;
+  payload: { signedUp: boolean; id: number };
 }
 
 export interface SignedUpEventsAction extends Action<EventsActionsTypes> {
@@ -37,4 +42,5 @@ export interface FilterEventsByYear extends Action<EventsActionsTypes> {
 export type EventsActions =
   | SetEventsAction
   | DeleteEventAction
-  | SignedUpEventsAction;
+  | SignedUpEventsAction
+  | ToggleSignUpAction;
