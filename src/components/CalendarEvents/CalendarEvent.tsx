@@ -10,6 +10,7 @@ interface CalendarEventProps {
   date: string;
   description: string;
   title: string;
+  signedUp: boolean;
 }
 export const CalendarEvent: React.FC<CalendarEventProps> = ({
   image,
@@ -17,11 +18,11 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
   description,
   date,
   title,
+  signedUp,
 }: CalendarEventProps) => {
-  // const newDate = new Date(date);
-  // console.log(getYear(newDate));
   const dispatch = useDispatch();
-  const handleDeleteEvent = (id: number) => {
+  const handleDeleteEvent = (id: number, signedUp: boolean) => {
+    signedUp = false;
     dispatch(deleteEvent(id));
   };
 
@@ -31,15 +32,13 @@ export const CalendarEvent: React.FC<CalendarEventProps> = ({
         <img src={eventIcon} alt="" />
         <div>
           <p>Событие {id}</p>
-          <p style={{ color: "rgba(0, 0, 0, 0.45)" }}>
-            Lorem ipsum dolor sit amet...
-          </p>
+          <p style={{ color: "rgba(0, 0, 0, 0.45)" }}>{title}</p>
         </div>
       </div>
       <div className="main__calendar-event-btns">
         <button
           style={{ borderRight: "1px solid rgba(0, 0, 0, 0.06)" }}
-          onClick={() => handleDeleteEvent(id)}
+          onClick={() => handleDeleteEvent(id, signedUp)}
         >
           удалить
         </button>

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { Dispatch } from "redux";
-import { EventI, EventInfo, EventsI } from "../../types/EventI";
+import { EventI, EventsI } from "../../types/EventI";
 import { EventsActions, EventsActionsTypes } from "../actionTypes/events";
 
 export const setEvents = (payload: EventsI["items"]): EventsActions => ({
@@ -9,7 +9,7 @@ export const setEvents = (payload: EventsI["items"]): EventsActions => ({
   payload,
 });
 
-export const signUpToEvent = (payload: EventI) => ({
+export const setSignedUpEvents = (payload: EventI) => ({
   type: EventsActionsTypes.SET_SIGNED_UP_EVENTS,
   payload,
 });
@@ -20,7 +20,10 @@ export const fetchEvents = () => (dispatch: Dispatch) => {
       "https://run.mocky.io/v3/49b8fbae-13e6-4aac-a8d1-644e3881cc62"
     )
     .then(({ data }) => {
-      const newArr = data.filter((item: EventI) => item.id < 16);
+      const newArr = data.filter((item: EventI) => {
+        item.signedUp = false;
+        return item.id < 16;
+      });
       dispatch(setEvents(newArr));
     });
 };

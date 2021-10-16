@@ -1,25 +1,33 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { signUpToEvent } from "../../store/actionCreators/events";
+import { setSignedUpEvents } from "../../store/actionCreators/events";
 import { selectEventsItems } from "../../store/selectors/events";
 
 export const EventInfo = () => {
   const dispatch = useDispatch();
   const events = useSelector(selectEventsItems);
+  const { id }: any = useParams();
+  const eventInfo = events.find((item) => item.id === +id && item);
+  const [activeButton, setActiveButton] = React.useState(eventInfo?.signedUp);
+  console.log(eventInfo);
 
-  let { id }: any = useParams();
-  const newEvent = events.find((item) => (item.id === +id ? item : null));
   const handleSignUpToEvent = () => {
-    if (newEvent) {
-      dispatch(signUpToEvent(newEvent));
+    if (eventInfo) {
+      eventInfo.signedUp = true;
+      dispatch(setSignedUpEvents(eventInfo));
+      setActiveButton(!activeButton);
     }
   };
   return (
     <div>
-      Событие {newEvent?.id}
+      Событие {eventInfo?.id}
       <div>Посетители</div>
-      <button onClick={handleSignUpToEvent}>Записаться</button>
+      {activeButton ? (
+        <button>Отказаться</button>
+      ) : (
+        <button onClick={handleSignUpToEvent}>Записаться</button>
+      )}
     </div>
   );
 };

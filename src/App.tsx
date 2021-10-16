@@ -4,7 +4,7 @@ import "./App.scss";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEventInfo, selectEventsItems } from "./store/selectors/events";
+import { selectEventsItems } from "./store/selectors/events";
 import { EventI } from "./types/EventI";
 import { getYear } from "date-fns";
 import { fetchEvents, setEvents } from "./store/actionCreators/events";
@@ -153,12 +153,10 @@ export const App = () => {
 
         <Switch>
           <Route path="/calendar" exact component={CalendarEvents} />
-
-          <Route path="/events" exact component={SingleEvent} />
-
-          <Route path="/events/:id">
+          <Route path="/events/:id" exact>
             <EventInfo />
           </Route>
+          <Route path="/events" component={SingleEvent} />
         </Switch>
       </div>
     </main>

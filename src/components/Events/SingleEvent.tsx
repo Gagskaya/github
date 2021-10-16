@@ -5,17 +5,8 @@ import eventImg from "../../assets/icons/event-img.png";
 
 import { selectEventsItems } from "../../store/selectors/events";
 
-interface SingleEvent {
-  id: number;
-  date: string;
-  description: string;
-  title: string;
-  image: string;
-}
-
-export const SingleEvent: React.FC<SingleEvent> = ({}) => {
+export const SingleEvent = () => {
   const events = useSelector(selectEventsItems);
-
   const history = useHistory();
   return (
     <div className="main__single-event-wrap">

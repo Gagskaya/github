@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { EventI, EventInfo, EventsI } from "../../types/EventI";
+import { EventI, EventsI } from "../../types/EventI";
 
 export enum EventsActionsTypes {
   SET_EVENTS = "events/SET_EVENTS",
