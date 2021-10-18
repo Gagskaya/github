@@ -1,13 +1,13 @@
 import { Action } from "redux";
-import { EventI, EventsI } from "../../types/EventI";
+import { EventsI } from "../../types/EventI";
 
 export enum EventsActionsTypes {
   SET_EVENTS = "events/SET_EVENTS",
   FETCH_EVENTS = "/events/FETCH_EVENTS",
-  DELETE_SIGNED_UP_EVENT = "/events/DELETE_SIGNED_UP_EVENT",
-  FILTER_BY_YEAR = "events/FILTER_BY_YEAR",
-  TOGGLE_SIGN_UP = "events/TOGGLE_SIGN_UP",
-  SET_SIGNED_UP_EVENTS = "events/SET_SIGNED_UP_EVENTS",
+  FILTER_EVENTS_BY_YEAR = "events/FILTER_EVENTS_BY_YEAR",
+  FILTER_EVENTS_BY_MONTH = "events/FILTER_EVENTS_BY_MONTH",
+  SIGN_UP_TO_EVENT = "events/SIGN_UP_TO_EVENT",
+  REMOVE_EVENT = "events/REMOVE_EVENT",
 }
 
 export interface SetEventsAction extends Action<EventsActionsTypes> {
@@ -19,28 +19,33 @@ export interface FetchEventsAction extends Action<EventsActionsTypes> {
   type: EventsActionsTypes.FETCH_EVENTS;
 }
 
-export interface DeleteEventAction extends Action<EventsActionsTypes> {
-  type: EventsActionsTypes.DELETE_SIGNED_UP_EVENT;
-  payload: { signedUp: boolean; id: number };
+export interface SignUpToEventAction extends Action<EventsActionsTypes> {
+  type: EventsActionsTypes.SIGN_UP_TO_EVENT;
+  payload: {
+    id: number;
+    firstName: string;
+    secondName: string;
+  };
 }
-
-export interface ToggleSignUpAction extends Action<EventsActionsTypes> {
-  type: EventsActionsTypes.TOGGLE_SIGN_UP;
-  payload: { signedUp: boolean; id: number };
-}
-
-export interface SignedUpEventsAction extends Action<EventsActionsTypes> {
-  type: EventsActionsTypes.SET_SIGNED_UP_EVENTS;
-  payload: EventI;
+export interface RemoveEventAction extends Action<EventsActionsTypes> {
+  type: EventsActionsTypes.REMOVE_EVENT;
+  payload: {
+    id: number;
+  };
 }
 
 export interface FilterEventsByYear extends Action<EventsActionsTypes> {
-  type: EventsActionsTypes.FILTER_BY_YEAR;
-  payload: any;
+  type: EventsActionsTypes.FILTER_EVENTS_BY_YEAR;
+  payload: { value: number };
+}
+export interface FilterEventsByMonth extends Action<EventsActionsTypes> {
+  type: EventsActionsTypes.FILTER_EVENTS_BY_MONTH;
+  payload: { index: number; month: string };
 }
 
 export type EventsActions =
   | SetEventsAction
-  | DeleteEventAction
-  | SignedUpEventsAction
-  | ToggleSignUpAction;
+  | SignUpToEventAction
+  | RemoveEventAction
+  | FilterEventsByYear
+  | FilterEventsByMonth;

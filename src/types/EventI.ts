@@ -5,8 +5,13 @@ export interface EventI {
   description: string;
   title: string;
   signedUp: boolean;
+  user?: {
+    firstName: string | null;
+    secondName: string | null;
+  };
 }
 export interface EventsI {
   items: EventI[];
-  signedUpItems: EventI[];
+  filterByYear: number;
+  filterByMonth: { index: number; month: string };
 }

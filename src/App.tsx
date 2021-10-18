@@ -4,10 +4,16 @@ import "./App.scss";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectEventsItems } from "./store/selectors/events";
-import { EventI } from "./types/EventI";
-import { getYear } from "date-fns";
-import { fetchEvents, setEvents } from "./store/actionCreators/events";
+import {
+  selectEventsItems,
+  selectFilterByMonth,
+  selectFilterByYear,
+} from "./store/selectors/events";
+import {
+  fetchEvents,
+  filterEventsByMonth,
+  filterEventsByYear,
+} from "./store/actionCreators/events";
 
 import { CalendarEvents } from "./components/CalendarEvents";
 
@@ -18,12 +24,11 @@ export const App = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const pathname = history.location.pathname;
+  const year = useSelector(selectFilterByYear);
+  const month = useSelector(selectFilterByMonth);
+  const [activeButton, setActiveButton] = React.useState("");
 
   const events = useSelector(selectEventsItems);
-
-  const [activeButton, setActiveButton] = React.useState("");
-  const [month, setMonth] = React.useState(1);
-  const [year, setYear] = React.useState(2020);
 
   const selectMonths = [
     "Январь",
@@ -39,12 +44,28 @@ export const App = () => {
     "Ноябрь",
     "Декабрь",
   ];
+
+  const selectYears = [2022, 2021];
+
   React.useEffect(() => {
     if (!events.length) {
       dispatch(fetchEvents());
     }
-  }, [dispatch, events?.length]);
-  const selectYears = [2022, 2021];
+  }, [dispatch, events.length]);
+
+  React.useEffect(() => {
+    if (pathname === "/calendar") {
+      setActiveButton("calendar");
+    } else if (pathname === "/events") {
+      setActiveButton("events");
+    } else if (pathname === "/") {
+      history.push("/events");
+      setActiveButton("events");
+    } else {
+      setActiveButton("events");
+    }
+  }, [pathname, history]);
+
   const setActiveCalendar = () => {
     history.push("/calendar");
     setActiveButton("calendar");
@@ -55,29 +76,14 @@ export const App = () => {
     setActiveButton("events");
   };
 
-  React.useEffect(() => {
-    if (pathname === "/calendar") {
-      setActiveButton("calendar");
-    } else if (pathname === "/events") {
-      setActiveButton("events");
-    } else if (pathname === "/") {
-      history.push("/calendar");
-      setActiveButton("calendar");
-    }
-  }, [pathname, history]);
-
-  const handleChange = (e: any) => {
-    e.preventDefault();
-    setYear(e.target.value);
-
-    const filterEventsByYear = events?.filter((item: EventI) => {
-      return getYear(new Date(item.date)) === +e.target.value;
-    });
-    console.log(filterEventsByYear);
-
-    dispatch(setEvents(filterEventsByYear));
+  const handleFilterByYear = (e: any) => {
+    dispatch(filterEventsByYear(+e.target.value));
   };
 
+  const handleFilterByMonth = (e: any) => {
+    const index = e.target.selectedIndex;
+    dispatch(filterEventsByMonth(index, e.target.value));
+  };
   return (
     <main className="main">
       <div className="fluid-container">
@@ -139,24 +145,28 @@ export const App = () => {
 
       <div className="container">
         <div className="main__selects">
-          <select value={year} onChange={handleChange}>
+          <select value={year} onChange={handleFilterByYear}>
             {selectYears.map((year, i) => (
               <option key={i}>{year}</option>
             ))}
           </select>
-          <select value={month} onChange={handleChange}>
-            {selectMonths.map((month, i) => (
+          <select value={month.month} onChange={handleFilterByMonth}>
+            {selectMonths?.map((month, i) => (
               <option key={i}>{month}</option>
             ))}
           </select>
         </div>
 
         <Switch>
-          <Route path="/calendar" exact component={CalendarEvents} />
-          <Route path="/events/:id" exact>
+          <Route path="/calendar" exact>
+            <CalendarEvents />
+          </Route>
+          <Route path="/events/:id">
             <EventInfo />
           </Route>
-          <Route path="/events" component={SingleEvent} />
+          <Route path="/events">
+            <SingleEvent />
+          </Route>
         </Switch>
       </div>
     </main>
